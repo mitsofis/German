@@ -109,9 +109,9 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', async () => provvedimento
             try {
-                const basePath = '/German'; // Use '' for local testing, '/German' for GitHub Pages
+                const basePath = ''; // Use '/German' for GitHub Pages, '' for local testing
                 await Promise.all([
                     loadHTML('header', `${basePath}/html/header.html`),
                     loadHTML('navigation', `${basePath}/html/navigation.html`),
