@@ -11,16 +11,12 @@
     <!-- Tailwind CSS Subsection End -->
     <!-- Critical CSS Subsection Start -->
     <style>
-        /* Global Styles Section Start */
-        /* Custom Colors Subsection Start */
         :root {
             --light-blue: #d6e4ff;
             --dark-blue: #0052cc;
             --bootstrap-blue: #0d6efd;
             --gray-inactive: #f1f1f1;
         }
-        /* Custom Colors Subsection End */
-        /* Global Styles Section End */
     </style>
     <!-- Critical CSS Subsection End -->
     <!-- Module Preload Subsection Start -->
@@ -93,24 +89,45 @@
         /* Load External HTML Files Subsection Start */
         async function loadHTML(elementId, filePath) {
             try {
+                console.log(`Attempting to load ${filePath} for ${elementId}`);
                 const response = await fetch(filePath);
-                if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+                if (!response.ok) throw new Error(`Failed to load ${filePath}: ${response.status} ${response.statusText}`);
                 const html = await response.text();
-                document.getElementById(elementId).innerHTML = html;
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.innerHTML = html;
+                    console.log(`Successfully loaded ${filePath} into ${elementId}`);
+                } else {
+                    throw new Error(`Element with ID ${elementId} not found`);
+                }
             } catch (error) {
                 console.error(`Error loading ${filePath}:`, error);
-                document.getElementById(elementId).innerHTML = `<p>Error loading content for ${elementId}</p>`;
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.innerHTML = `<p class="text-red-500">Error loading content for ${elementId}: ${error.message}</p>`;
+                }
             }
         }
 
-        // Load external HTML files into placeholders
-        document.addEventListener('DOMContentLoaded', () => {
-            loadHTML('header', 'German/html/header.html');
-            loadHTML('German/navigation', 'html/navigation.html');
-            loadHTML('conversations', 'html/conversations.html');
-            loadHTML('grammar', 'html/grammar.html');
-            loadHTML('exercises', 'html/exercises.html');
-            loadHTML('practice', 'html/practice.html');
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const basePath = '/German'; // Use '' for local testing, '/German' for GitHub Pages
+                await Promise.all([
+                    loadHTML('header', `${basePath}/html/header.html`),
+                    loadHTML('navigation', `${basePath}/html/navigation.html`),
+                    loadHTML('conversations', `${basePath}/html/conversations.html`),
+                    loadHTML('grammar', `${basePath}/html/grammar.html`),
+                    loadHTML('exercises', `${basePath}/html/exercises.html`),
+                    loadHTML('practice', `${basePath}/html/practice.html`)
+                ]);
+                console.log('All HTML files loaded successfully');
+                // Reinitialize tab navigation if needed
+                if (typeof initializeTabs === 'function') {
+                    initializeTabs(); // Ensure tabNavigation.js is compatible
+                }
+            } catch (error) {
+                console.error('Error during HTML loading:', error);
+            }
         });
         /* Load External HTML Files Subsection End */
     </script>
