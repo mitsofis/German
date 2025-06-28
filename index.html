@@ -66,16 +66,16 @@
     <!-- Progress Overview Placeholder Subsection Start -->
     <div id="progress-section"></div>
     <!-- Progress Overview Placeholder Subsection End -->
-
+<script type="module" defer>
+  console.log('✅ main.js loaded and working');
+  window.openTab = () => console.log('✅ openTab stub');
+</script>
     <!-- JavaScript Include Subsection Start -->
     <script type="module" src="/js/main.js" defer></script>
     <!-- Debugging Script Subsection Start -->
     <script>
 
-        <script type="module" defer>
-  console.log('✅ main.js loaded and working');
-  window.openTab = () => console.log('✅ openTab stub');
-</script>
+        
         // Refined debugging script to diagnose blank page
         (function () {
             console.log('Debug: Debugging script initialized at', new Date().toLocaleString());
