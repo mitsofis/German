@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.updateProgress = updateProgress;
         window.resetProgress = resetProgress;
         window.vocabStartVocabQuiz = vocabStartVocabQuiz;
- manifest.json
         window.vocabCheckVocabQuiz = vocabCheckVocabQuiz;
         window.vocabNextQuizQuestion = vocabNextQuizQuestion;
         window.vocabShowSolutions = vocabShowSolutions;
