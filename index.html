@@ -3,32 +3,36 @@
 <html lang="en">
 <!-- Head Section Start -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Colloquial German for Beginners - Unit 2</title>
     <!-- Tailwind CSS Subsection Start -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tailwind CSS Subsection End -->
     <!-- Critical CSS Subsection Start -->
     <style>
+        /* Global Styles Section Start */
+        /* Custom Colors Subsection Start */
         :root {
             --light-blue: #d6e4ff;
             --dark-blue: #0052cc;
             --bootstrap-blue: #0d6efd;
             --gray-inactive: #f1f1f1;
         }
+        /* Custom Colors Subsection End */
+        /* Global Styles Section End */
     </style>
     <!-- Critical CSS Subsection End -->
     <!-- Module Preload Subsection Start -->
-    <link rel="modulepreload" href="js/tabNavigation.js">
-    <link rel="modulepreload" href="js/audioPlayback.js">
-    <link rel="modulepreload" href="js/feedbackDisplay.js">
-    <link rel="modulepreload" href="js/progressTracking.js">
-    <link rel="modulepreload" href="js/vocabularyQuiz.js">
-    <link rel="modulepreload" href="js/flashcards.js">
-    <link rel="modulepreload" href="js/grammarPractice.js">
-    <link rel="modulepreload" href="js/exercise1.js">
-    <link rel="modulepreload" href="js/exercise2.js">
+    <link rel="modulepreload" href="js/tabNavigation.js" />
+    <link rel="modulepreload" href="js/audioPlayback.js" />
+    <link rel="modulepreload" href="js/feedbackDisplay.js" />
+    <link rel="modulepreload" href="js/progressTracking.js" />
+    <link rel="modulepreload" href="js/vocabularyQuiz.js" />
+    <link rel="modulepreload" href="js/flashcards.js" />
+    <link rel="modulepreload" href="js/grammarPractice.js" />
+    <link rel="modulepreload" href="js/exercise1.js" />
+    <link rel="modulepreload" href="js/exercise2.js" />
     <!-- Module Preload Subsection End -->
 </head>
 <!-- Head Section End -->
@@ -68,7 +72,12 @@
         <p id="progress-text" class="mt-2">0/3 exercises completed</p>
         <div id="score" class="mt-2 font-bold">Score: 0</div>
         <div id="badge" class="mt-2"></div>
-        <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-2" onclick="resetProgress()">Reset Progress</button>
+        <button
+            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-2"
+            onclick="resetProgress()"
+        >
+            Reset Progress
+        </button>
     </div>
     <!-- Progress Overview Subsection End -->
 
@@ -76,12 +85,12 @@
     <script type="module" src="js/main.js"></script>
     <script>
         /* Load Non-Critical CSS Subsection Start */
-        (function() {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = 'css/styles.css';
-            link.onload = () => console.log('Non-critical CSS loaded');
-            link.onerror = () => console.error('Error loading non-critical CSS');
+        (function () {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = "css/styles.css";
+            link.onload = () => console.log("Non-critical CSS loaded");
+            link.onerror = () => console.error("Error loading non-critical CSS");
             document.head.appendChild(link);
         })();
         /* Load Non-Critical CSS Subsection End */
@@ -89,45 +98,24 @@
         /* Load External HTML Files Subsection Start */
         async function loadHTML(elementId, filePath) {
             try {
-                console.log(`Attempting to load ${filePath} for ${elementId}`);
                 const response = await fetch(filePath);
-                if (!response.ok) throw new Error(`Failed to load ${filePath}: ${response.status} ${response.statusText}`);
+                if (!response.ok) throw new Error(`Failed to load ${filePath}`);
                 const html = await response.text();
-                const element = document.getElementById(elementId);
-                if (element) {
-                    element.innerHTML = html;
-                    console.log(`Successfully loaded ${filePath} into ${elementId}`);
-                } else {
-                    throw new Error(`Element with ID ${elementId} not found`);
-                }
+                document.getElementById(elementId).innerHTML = html;
             } catch (error) {
                 console.error(`Error loading ${filePath}:`, error);
-                const element = document.getElementById(elementId);
-                if (element) {
-                    element.innerHTML = `<p class="text-red-500">Error loading content for ${elementId}: ${error.message}</p>`;
-                }
+                document.getElementById(elementId).innerHTML = `<p>Error loading content for ${elementId}</p>`;
             }
         }
 
-        document.addEventListener('DOMContentLoaded', async () => provvedimento
-            try {
-                const basePath = ''; // Use '/German' for GitHub Pages, '' for local testing
-                await Promise.all([
-                    loadHTML('header', `${basePath}/html/header.html`),
-                    loadHTML('navigation', `${basePath}/html/navigation.html`),
-                    loadHTML('conversations', `${basePath}/html/conversations.html`),
-                    loadHTML('grammar', `${basePath}/html/grammar.html`),
-                    loadHTML('exercises', `${basePath}/html/exercises.html`),
-                    loadHTML('practice', `${basePath}/html/practice.html`)
-                ]);
-                console.log('All HTML files loaded successfully');
-                // Reinitialize tab navigation if needed
-                if (typeof initializeTabs === 'function') {
-                    initializeTabs(); // Ensure tabNavigation.js is compatible
-                }
-            } catch (error) {
-                console.error('Error during HTML loading:', error);
-            }
+        // Load external HTML files into placeholders
+        document.addEventListener("DOMContentLoaded", () => {
+            loadHTML("header", "html/header.html");
+            loadHTML("navigation", "html/navigation.html");
+            loadHTML("conversations", "html/conversations.html");
+            loadHTML("grammar", "html/grammar.html");
+            loadHTML("exercises", "html/exercises.html");
+            loadHTML("practice", "html/practice.html");
         });
         /* Load External HTML Files Subsection End */
     </script>
