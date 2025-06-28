@@ -31,7 +31,7 @@ async function loadPartials() {
             { id: 'grammar', file: 'html/grammar.html' },
             { id: 'exercises', file: 'html/exercises.html' },
             { id: 'practice', file: 'html/practice.html' },
-            { id: 'progress-section', file: 'html/progress.html' } // Added progress section
+            { id: 'progress-section', file: 'html/progress.html' }
         ];
 
         for (const partial of partials) {
@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.updateProgress = updateProgress;
         window.resetProgress = resetProgress;
         window.vocabStartVocabQuiz = vocabStartVocabQuiz;
+ manifest.json
         window.vocabCheckVocabQuiz = vocabCheckVocabQuiz;
         window.vocabNextQuizQuestion = vocabNextQuizQuestion;
         window.vocabShowSolutions = vocabShowSolutions;
