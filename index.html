@@ -63,23 +63,9 @@
     <div id="global-feedback" class="feedback hidden"></div>
     <!-- Global Feedback Subsection End -->
 
-    <!-- Progress Overview Subsection Start -->
-    <div id="progress-section" class="bg-gray-100 p-4 rounded-lg mt-4">
-        <h4 class="text-lg font-semibold">Progress Overview</h4>
-        <div class="w-full bg-gray-200 rounded-full h-2.5 mt-3">
-            <div id="progress-bar" class="bg-green-600 h-2.5 rounded-full" style="width: 0%;"></div>
-        </div>
-        <p id="progress-text" class="mt-2">0/3 exercises completed</p>
-        <div id="score" class="mt-2 font-bold">Score: 0</div>
-        <div id="badge" class="mt-2"></div>
-        <button
-            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-2"
-            onclick="resetProgress()"
-        >
-            Reset Progress
-        </button>
-    </div>
-    <!-- Progress Overview Subsection End -->
+    <!-- Progress Overview Placeholder Subsection Start -->
+    <div id="progress-section"></div>
+    <!-- Progress Overview Placeholder Subsection End -->
 
     <!-- JavaScript Include Subsection Start -->
     <script type="module" src="js/main.js"></script>
@@ -116,6 +102,7 @@
             loadHTML("grammar", "html/grammar.html");
             loadHTML("exercises", "html/exercises.html");
             loadHTML("practice", "html/practice.html");
+            loadHTML("progress-section", "html/progress.html"); // Added progress section
         });
         /* Load External HTML Files Subsection End */
     </script>
