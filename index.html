@@ -69,6 +69,82 @@
 
     <!-- JavaScript Include Subsection Start -->
     <script type="module" src="js/main.js"></script>
+    <!-- Debugging Script Subsection Start -->
+    <script>
+        // Debugging script to diagnose blank page
+        (function () {
+            // Log when debugging script runs
+            console.log('Debug: Debugging script initialized at', new Date().toLocaleString());
+
+            // Check if main.js is loaded
+            const mainScript = document.querySelector('script[src="js/main.js"]');
+            if (!mainScript) {
+                console.error('Debug: main.js script tag not found in DOM');
+                document.getElementById('global-feedback').innerHTML = 
+                    '<p class="text-red-500">Error: main.js script not found. Check script tag.</p>';
+                document.getElementById('global-feedback').classList.remove('hidden');
+                return;
+            }
+
+            // Log when main.js is loaded or fails
+            mainScript.addEventListener('load', () => {
+                console.log('Debug: main.js successfully loaded');
+            });
+            mainScript.addEventListener('error', () => {
+                console.error('Debug: Failed to load main.js. Check file path or network.');
+                document.getElementById('global-feedback').innerHTML = 
+                    '<p class="text-red-500">Error: Failed to load main.js. Check file path or network.</p>';
+                document.getElementById('global-feedback').classList.remove('hidden');
+            });
+
+            // Monitor DOMContentLoaded event
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('Debug: DOMContentLoaded event fired');
+
+                // Check if placeholders are present
+                const placeholders = ['header', 'navigation', 'conversations', 'grammar', 'exercises', 'practice', 'progress-section'];
+                placeholders.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        console.log(`Debug: Placeholder #${id} found in DOM`);
+                        // Check if placeholder is empty after a short delay (allowing main.js to load content)
+                        setTimeout(() => {
+                            if (element.innerHTML.trim() === '') {
+                                console.warn(`Debug: Placeholder #${id} is empty after load attempt`);
+                                document.getElementById('global-feedback').innerHTML += 
+                                    `<p class="text-yellow-500">Warning: Content for ${id} failed to load.</p>`;
+                                document.getElementById('global-feedback').classList.remove('hidden');
+                            } else {
+                                console.log(`Debug: Placeholder #${id} has content`);
+                            }
+                        }, 2000); // Delay to allow main.js to load partials
+                    } else {
+                        console.error(`Debug: Placeholder #${id} not found in DOM`);
+                        document.getElementById('global-feedback').innerHTML += 
+                            `<p class="text-red-500">Error: Placeholder ${id} not found.</p>`;
+                        document.getElementById('global-feedback').classList.remove('hidden');
+                    }
+                });
+            });
+
+            // Catch unhandled errors
+            window.addEventListener('error', (event) => {
+                console.error('Debug: Unhandled error:', event.message, event.filename, event.lineno);
+                document.getElementById('global-feedback').innerHTML += 
+                    `<p class="text-red-500">Error: ${event.message} in ${event.filename}:${event.lineno}</p>`;
+                document.getElementById('global-feedback').classList.remove('hidden');
+            });
+
+            // Log if global-feedback div is available
+            const feedbackDiv = document.getElementById('global-feedback');
+            if (feedbackDiv) {
+                console.log('Debug: global-feedback div found');
+            } else {
+                console.error('Debug: global-feedback div not found');
+            }
+        })();
+    </script>
+    <!-- Debugging Script Subsection End -->
     <!-- JavaScript Include Subsection End -->
 </body>
 <!-- Body Section End -->
