@@ -71,48 +71,61 @@
     <script type="module" src="js/main.js"></script>
     <!-- Debugging Script Subsection Start -->
     <script>
-        // Debugging script to diagnose blank page
+        // Enhanced debugging script to diagnose blank page
         (function () {
-            // Log when debugging script runs
             console.log('Debug: Debugging script initialized at', new Date().toLocaleString());
 
-            // Check if main.js is loaded
+            // Check if main.js script tag exists
             const mainScript = document.querySelector('script[src="js/main.js"]');
             if (!mainScript) {
                 console.error('Debug: main.js script tag not found in DOM');
                 document.getElementById('global-feedback').innerHTML = 
-                    '<p class="text-red-500">Error: main.js script not found. Check script tag.</p>';
+                    '<p class="text-red-500">Error: main.js script not found. Check script tag in index.html.</p>';
                 document.getElementById('global-feedback').classList.remove('hidden');
                 return;
             }
 
-            // Log when main.js is loaded or fails
+            // Monitor main.js loading
             mainScript.addEventListener('load', () => {
                 console.log('Debug: main.js successfully loaded');
             });
             mainScript.addEventListener('error', () => {
-                console.error('Debug: Failed to load main.js. Check file path or network.');
+                console.error('Debug: Failed to load js/main.js. Verify that js/main.js exists in the German repository.');
                 document.getElementById('global-feedback').innerHTML = 
-                    '<p class="text-red-500">Error: Failed to load main.js. Check file path or network.</p>';
+                    '<p class="text-red-500">Error: Failed to load js/main.js. Ensure js/main.js exists in the German repository.</p>';
                 document.getElementById('global-feedback').classList.remove('hidden');
             });
 
-            // Monitor DOMContentLoaded event
+            // Check other module preloads
+            const modules = [
+                'tabNavigation.js', 'audioPlayback.js', 'feedbackDisplay.js', 
+                'progressTracking.js', 'vocabularyQuiz.js', 'flashcards.js', 
+                'grammarPractice.js', 'exercise1.js', 'exercise2.js'
+            ];
+            modules.forEach(module => {
+                const script = document.querySelector(`link[href="js/${module}"]`);
+                if (!script) {
+                    console.error(`Debug: Module preload for js/${module} not found in DOM`);
+                    document.getElementById('global-feedback').innerHTML += 
+                        `<p class="text-yellow-500">Warning: Module preload for js/${module} not found.</p>`;
+                }
+            });
+
+            // Monitor DOMContentLoaded
             document.addEventListener('DOMContentLoaded', () => {
                 console.log('Debug: DOMContentLoaded event fired');
 
-                // Check if placeholders are present
+                // Check placeholders
                 const placeholders = ['header', 'navigation', 'conversations', 'grammar', 'exercises', 'practice', 'progress-section'];
                 placeholders.forEach(id => {
                     const element = document.getElementById(id);
                     if (element) {
                         console.log(`Debug: Placeholder #${id} found in DOM`);
-                        // Check if placeholder is empty after a short delay (allowing main.js to load content)
                         setTimeout(() => {
                             if (element.innerHTML.trim() === '') {
-                                console.warn(`Debug: Placeholder #${id} is empty after load attempt`);
+                                console.warn(`Debug: Placeholder #${id} is empty after load attempt. Check html/${id}.html in German repository.`);
                                 document.getElementById('global-feedback').innerHTML += 
-                                    `<p class="text-yellow-500">Warning: Content for ${id} failed to load.</p>`;
+                                    `<p class="text-yellow-500">Warning: Content for ${id} failed to load. Ensure html/${id}.html exists.</p>`;
                                 document.getElementById('global-feedback').classList.remove('hidden');
                             } else {
                                 console.log(`Debug: Placeholder #${id} has content`);
@@ -121,27 +134,29 @@
                     } else {
                         console.error(`Debug: Placeholder #${id} not found in DOM`);
                         document.getElementById('global-feedback').innerHTML += 
-                            `<p class="text-red-500">Error: Placeholder ${id} not found.</p>`;
+                            `<p class="text-red-500">Error: Placeholder ${id} not found in index.html.</p>`;
                         document.getElementById('global-feedback').classList.remove('hidden');
                     }
                 });
             });
 
-            // Catch unhandled errors
-            window.addEventListener('error', (event) => {
-                console.error('Debug: Unhandled error:', event.message, event.filename, event.lineno);
-                document.getElementById('global-feedback').innerHTML += 
-                    `<p class="text-red-500">Error: ${event.message} in ${event.filename}:${event.lineno}</p>`;
-                document.getElementById('global-feedback').classList.remove('hidden');
-            });
-
-            // Log if global-feedback div is available
+            // Check global-feedback div
             const feedbackDiv = document.getElementById('global-feedback');
             if (feedbackDiv) {
                 console.log('Debug: global-feedback div found');
             } else {
                 console.error('Debug: global-feedback div not found');
             }
+
+            // Catch unhandled errors
+            window.addEventListener('error', (event) => {
+                console.error('Debug: Unhandled error:', event.message, event.filename, event.lineno);
+                document.getElementById('global-feedback').innerHTML += 
+                    `<p class="text-red-500">Error: ${event.message} in ${event.filename}:${event.lineno}</p>`;
+                document.getTenemos un problema. ¿Cómo lo arreglamos?
+
+                document.getElementById('global-feedback').classList.remove('hidden');
+            });
         })();
     </script>
     <!-- Debugging Script Subsection End -->
