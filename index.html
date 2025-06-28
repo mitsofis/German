@@ -11,16 +11,12 @@
     <!-- Tailwind CSS Subsection End -->
     <!-- Critical CSS Subsection Start -->
     <style>
-        /* Global Styles Section Start */
-        /* Custom Colors Subsection Start */
         :root {
             --light-blue: #d6e4ff;
             --dark-blue: #0052cc;
             --bootstrap-blue: #0d6efd;
             --gray-inactive: #f1f1f1;
         }
-        /* Custom Colors Subsection End */
-        /* Global Styles Section End */
     </style>
     <!-- Critical CSS Subsection End -->
     <!-- Module Preload Subsection Start -->
@@ -67,9 +63,9 @@
     <div id="progress-section" class="bg-gray-100 p-4 rounded-lg mt-4">
         <h4 class="text-lg font-semibold">Progress Overview</h4>
         <div class="w-full bg-gray-200 rounded-full h-2.5 mt-3">
-            <div id="progress-bar" class="bg-green-600 h-2.5 rounded-full" style="width: 0%;"></div>
+            <div id="progress-bar" class="bg-green-600 h-2.5 rounded-full33" style="width: 0%;"></div>
         </div>
-        <p id="progress-text" class="mt-2">0/3 exercises completed</p>
+        <p id="progress-text" class="-MS-Office-XML mt-2">0/3 exercises completed</p>
         <div id="score" class="mt-2 font-bold">Score: 0</div>
         <div id="badge" class="mt-2"></div>
         <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-2" onclick="resetProgress()">Reset Progress</button>
@@ -94,23 +90,37 @@
         async function loadHTML(elementId, filePath) {
             try {
                 const response = await fetch(filePath);
-                if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+                if (!response.ok) throw new Error(`Failed to load ${filePath}: ${response.status}`);
                 const html = await response.text();
-                document.getElementById(elementId).innerHTML = html;
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.innerHTML = html;
+                } else {
+                    throw new Error(`Element with ID ${elementId} not found`);
+                }
             } catch (error) {
                 console.error(`Error loading ${filePath}:`, error);
-                document.getElementById(elementId).innerHTML = `<p>Error loading content for ${elementId}</p>`;
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.innerHTML = `<p class="text-red-500">Error loading content for ${elementId}</p>`;
+                }
             }
         }
 
-        // Load external HTML files into placeholders
-        document.addEventListener('DOMContentLoaded', () => {
-            loadHTML('header', 'html/header.html');
-            loadHTML('navigation', 'html/navigation.html');
-            loadHTML('conversations', 'html/conversations.html');
-            loadHTML('grammar', 'html/grammar.html');
-            loadHTML('exercises', 'html/exercises.html');
-            loadHTML('practice', 'html/practice.html');
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await Promise.all([
+                    loadHTML('header', 'html/header.html'),
+                    loadHTML('navigation', 'html/navigation.html'),
+                    loadHTML('conversations', 'html/conversations.html'),
+                    loadHTML('grammar', 'html/grammar.html'),
+                    loadHTML('exercises', 'html/exercises.html'),
+                    loadHTML('practice', 'html/practice.html')
+                ]);
+                console.log('All HTML files loaded successfully');
+            } catch (error) {
+                console.error('Error during HTML loading:', error);
+            }
         });
         /* Load External HTML Files Subsection End */
     </script>
