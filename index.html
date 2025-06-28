@@ -71,6 +71,11 @@
     <script type="module" src="/js/main.js" defer></script>
     <!-- Debugging Script Subsection Start -->
     <script>
+
+        <script type="module" defer>
+  console.log('✅ main.js loaded and working');
+  window.openTab = () => console.log('✅ openTab stub');
+</script>
         // Refined debugging script to diagnose blank page
         (function () {
             console.log('Debug: Debugging script initialized at', new Date().toLocaleString());
