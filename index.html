@@ -69,43 +69,6 @@
 
     <!-- JavaScript Include Subsection Start -->
     <script type="module" src="js/main.js"></script>
-    <script>
-        /* Load Non-Critical CSS Subsection Start */
-        (function () {
-            const link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.href = "css/styles.css";
-            link.onload = () => console.log("Non-critical CSS loaded");
-            link.onerror = () => console.error("Error loading non-critical CSS");
-            document.head.appendChild(link);
-        })();
-        /* Load Non-Critical CSS Subsection End */
-
-        /* Load External HTML Files Subsection Start */
-        async function loadHTML(elementId, filePath) {
-            try {
-                const response = await fetch(filePath);
-                if (!response.ok) throw new Error(`Failed to load ${filePath}`);
-                const html = await response.text();
-                document.getElementById(elementId).innerHTML = html;
-            } catch (error) {
-                console.error(`Error loading ${filePath}:`, error);
-                document.getElementById(elementId).innerHTML = `<p>Error loading content for ${elementId}</p>`;
-            }
-        }
-
-        // Load external HTML files into placeholders
-        document.addEventListener("DOMContentLoaded", () => {
-            loadHTML("header", "html/header.html");
-            loadHTML("navigation", "html/navigation.html");
-            loadHTML("conversations", "html/conversations.html");
-            loadHTML("grammar", "html/grammar.html");
-            loadHTML("exercises", "html/exercises.html");
-            loadHTML("practice", "html/practice.html");
-            loadHTML("progress-section", "html/progress.html"); // Added progress section
-        });
-        /* Load External HTML Files Subsection End */
-    </script>
     <!-- JavaScript Include Subsection End -->
 </body>
 <!-- Body Section End -->
