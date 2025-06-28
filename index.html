@@ -90,13 +90,13 @@
                 console.log('Debug: main.js successfully loaded');
             });
             mainScript.addEventListener('error', () => {
-                console.error('Debug: Failed to load js/main.js. Verify that js/main.js exists in the German repository.');
+                console.error('Debug: Failed to load js/main.js. Verify that js/main.js exists in German/js/.');
                 document.getElementById('global-feedback').innerHTML = 
-                    '<p class="text-red-500">Error: Failed to load js/main.js. Ensure js/main.js exists in the German repository.</p>';
+                    '<p class="text-red-500">Error: Failed to load js/main.js. Ensure js/main.js exists in German/js/.</p>';
                 document.getElementById('global-feedback').classList.remove('hidden');
             });
 
-            // Check other module preloads
+            // Check module preloads
             const modules = [
                 'tabNavigation.js', 'audioPlayback.js', 'feedbackDisplay.js', 
                 'progressTracking.js', 'vocabularyQuiz.js', 'flashcards.js', 
@@ -105,32 +105,42 @@
             modules.forEach(module => {
                 const script = document.querySelector(`link[href="js/${module}"]`);
                 if (!script) {
-                    console.error(`Debug: Module preload for js/${module} not found in DOM`);
+                    console.warn(`Debug: Module preload for js/${module} not found in DOM`);
                     document.getElementById('global-feedback').innerHTML += 
                         `<p class="text-yellow-500">Warning: Module preload for js/${module} not found.</p>`;
+                    document.getElementById('global-feedback').classList.remove('hidden');
                 }
             });
 
-            // Monitor DOMContentLoaded
+            // Monitor DOMContentLoaded and check partials/CSS
             document.addEventListener('DOMContentLoaded', () => {
                 console.log('Debug: DOMContentLoaded event fired');
 
-                // Check placeholders
+                // Check placeholders and content
                 const placeholders = ['header', 'navigation', 'conversations', 'grammar', 'exercises', 'practice', 'progress-section'];
                 placeholders.forEach(id => {
                     const element = document.getElementById(id);
                     if (element) {
                         console.log(`Debug: Placeholder #${id} found in DOM`);
                         setTimeout(() => {
-                            if (element.innerHTML.trim() === '') {
-                                console.warn(`Debug: Placeholder #${id} is empty after load attempt. Check html/${id}.html in German repository.`);
+                            const content = element.innerHTML.trim();
+                            if (content === '') {
+                                console.warn(`Debug: Placeholder #${id} is empty. Check html/${id}.html for content or fetch errors.`);
                                 document.getElementById('global-feedback').innerHTML += 
-                                    `<p class="text-yellow-500">Warning: Content for ${id} failed to load. Ensure html/${id}.html exists.</p>`;
+                                    `<p class="text-yellow-500">Warning: No content in ${id}. Ensure html/${id}.html exists and is not empty.</p>`;
                                 document.getElementById('global-feedback').classList.remove('hidden');
                             } else {
-                                console.log(`Debug: Placeholder #${id} has content`);
+                                console.log(`Debug: Placeholder #${id} has content (length: ${content.length} characters)`);
+                                // Check if content is visible
+                                const computedStyle = window.getComputedStyle(element);
+                                if (computedStyle.display === 'none' || computedStyle.visibility === 'hidden') {
+                                    console.warn(`Debug: Placeholder #${id} is hidden (display: ${computedStyle.display}, visibility: ${computedStyle.visibility})`);
+                                    document.getElementById('global-feedback').innerHTML += 
+                                        `<p class="text-yellow-500">Warning: Content in ${id} is hidden by CSS. Check Tailwind classes or css/styles.css.</p>`;
+                                    document.getElementById('global-feedback').classList.remove('hidden');
+                                }
                             }
-                        }, 2000); // Delay to allow main.js to load partials
+                        }, 3000); // Increased delay to ensure main.js completes loading
                     } else {
                         console.error(`Debug: Placeholder #${id} not found in DOM`);
                         document.getElementById('global-feedback').innerHTML += 
@@ -138,6 +148,27 @@
                         document.getElementById('global-feedback').classList.remove('hidden');
                     }
                 });
+
+                // Check Tailwind CSS
+                const testElement = document.createElement('div');
+                testElement.className = 'text-red-500';
+                document.body.appendChild(testElement);
+                const style = window.getComputedStyle(testElement).color;
+                if (style !== 'rgb(239, 68, 68)') { // Tailwind's text-red-500
+                    console.warn('Debug: Tailwind CSS may not be loaded correctly');
+                    document.getElementById('global-feedback').innerHTML += 
+                        '<p class="text-red-500">Warning: Tailwind CSS may not be loaded. Check CDN or network.</p>';
+                    document.getElementById('global-feedback').classList.remove('hidden');
+                }
+                document.body.removeChild(testElement);
+
+                // Check styles.css loading
+                const cssLink = document.querySelector('link[href="css/styles.css"]');
+                if (!cssLink) {
+                    console.log('Debug: styles.css not yet loaded (handled by main.js)');
+                } else {
+                    console.log('Debug: styles.css found in DOM');
+                }
             });
 
             // Check global-feedback div
@@ -153,10 +184,20 @@
                 console.error('Debug: Unhandled error:', event.message, event.filename, event.lineno);
                 document.getElementById('global-feedback').innerHTML += 
                     `<p class="text-red-500">Error: ${event.message} in ${event.filename}:${event.lineno}</p>`;
-                document.getTenemos un problema. ¿Cómo lo arreglamos?
-
                 document.getElementById('global-feedback').classList.remove('hidden');
             });
+
+            // Check main.js execution
+            setTimeout(() => {
+                if (typeof window.openTab !== 'function') {
+                    console.error('Debug: main.js may not have executed correctly (window.openTab not defined)');
+                    document.getElementById('global-feedback').innerHTML += 
+                        '<p class="text-red-500">Error: main.js initialization failed. Check js/main.js for errors.</p>';
+                    document.getElementById('global-feedback').classList.remove('hidden');
+                } else {
+                    console.log('Debug: main.js initialized (window.openTab defined)');
+                }
+            }, 3000);
         })();
     </script>
     <!-- Debugging Script Subsection End -->
